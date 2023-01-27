@@ -1,53 +1,53 @@
-<script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
-</script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it! Bem Vinda à Publiset!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <NavigationBar/>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import NavigationBar from './components/NavigationBar.vue';
+
+@Options({
+  components: {
+    NavigationBar,
+  },
+})
+export default class App extends Vue { }
+</script>
+
+<style>
+#app {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('~@/assets/fonts/pxgrotesk/PxGroteskPan-Thin.ttf') format('truetype');
+  font-weight: thin;
+  font-style: thin;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('~@/assets/fonts/pxgrotesk/PxGroteskPan-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: bold;
 }
+
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('~@/assets/fonts/pxgrotesk/PxGroteskPan-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 </style>
