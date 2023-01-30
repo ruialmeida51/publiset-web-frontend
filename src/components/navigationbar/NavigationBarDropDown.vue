@@ -1,7 +1,6 @@
-<!-- eslint-disable no-alert -->
 <!-- eslint-disable vuejs-accessibility/no-access-key -->
 <template>
-    <div :class="['burger-menu-dropdown', { 'visible': toggled }]">
+    <div :class="['burger-menu-dropdown', { 'visible': isBurgerMenuOpen }]">
         <a>Quem somos</a>
         <a>Portfólio</a>
         <a>Contactos</a>
@@ -9,23 +8,18 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent, toRefs } from 'vue';
 
-@Options({
-  props: {
-    toggled: Boolean,
+export default defineComponent({
+  name: 'NavigationBarDropDown',
+  props: { toggled: Boolean },
+  setup(props) {
+    const { toggled: isBurgerMenuOpen } = toRefs(props);
+    return {
+      isBurgerMenuOpen,
+    };
   },
-
-  methods: {
-    onContactUsClick: () => {
-      alert('Something to fix later.');
-    },
-  },
-})
-
-export default class NavigationBarDropDownMenu extends Vue {
-    toggled!: boolean;
-}
+});
 </script>
 
 <style scoped>
@@ -33,15 +27,16 @@ export default class NavigationBarDropDownMenu extends Vue {
 Dropdown styling
  */
 .burger-menu-dropdown {
-    position: absolute;
     background-color: black;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 1000;
     animation: growDown 300ms ease-in-out forwards;
     margin-top: 10px;
     margin-left: 10px;
     transform-origin: top center;
+    position: fixed;
+    margin-top: 55px;
 }
 
 .burger-menu-dropdown:not(.visible) {

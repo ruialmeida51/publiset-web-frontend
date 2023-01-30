@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
     <div class="navigation">
-        <div :class="['burger-menu', { 'open': toggled }]" @click="onMenuClick">
+        <div class="burger-menu" :class="{ open: toggled }" @click="onMenuClick">
             <span></span>
             <span></span>
             <span></span>
@@ -16,38 +16,39 @@
         </div>
     </div>
 
-    <NavigationBarDropDown v-bind:toggled="toggled"/>
+    <NavigationBarDropDown v-model:toggled="toggled" />
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent, ref } from 'vue';
 import NavigationBarDropDown from './NavigationBarDropDown.vue';
 
-@Options({
-  props: {
-    toggled: Boolean,
-  },
-
-  components: {
-    NavigationBarDropDown,
-  },
-})
-
-export default class NavigationBar extends Vue {
-    toggled = false;
-
-    onMenuClick = () => {
-      this.toggled = !this.toggled;
+export default defineComponent({
+  name: 'NavigationBar',
+  props: {},
+  components: { NavigationBarDropDown },
+  setup() {
+    const toggled = ref<boolean>();
+    function onMenuClick() {
+      toggled.value = !toggled.value;
     }
 
-    onContactUsClick = () => {
+    function onContactUsClick() {
       alert('Something to fix later.');
     }
 
-    onPublisetLogoClick = () => {
+    function onPublisetLogoClick() {
       alert('Something to fix later.');
     }
-}
+
+    return {
+      toggled,
+      onMenuClick,
+      onContactUsClick,
+      onPublisetLogoClick,
+    };
+  },
+});
 </script>
 
 <style scoped>

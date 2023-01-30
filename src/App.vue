@@ -1,14 +1,20 @@
 <template>
   <NavigationBar/>
+  <LandingPage/>
+  <BottomBar/>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import NavigationBar from './components/NavigationBar.vue';
+import NavigationBar from '@/components/navigationbar/NavigationBar.vue';
+import BottomBar from '@/components/bottombar/BottomBar.vue';
+import LandingPage from '@/components/landingpage/LandingPage.vue';
 
 @Options({
   components: {
     NavigationBar,
+    BottomBar,
+    LandingPage,
   },
 })
 export default class App extends Vue { }
@@ -27,6 +33,16 @@ export default class App extends Vue { }
   bottom: 0;
   right: 0;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#app pre {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app button {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 
 @font-face {
