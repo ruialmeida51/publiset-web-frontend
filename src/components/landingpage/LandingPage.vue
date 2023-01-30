@@ -309,7 +309,7 @@ Mobile/Low Resolution CSS
 @media only screen and (min-width: 2560px) and (max-width: 3840px) {
     .landing-page {
         margin-left: 120px;
-        margin-top: 25%;
+        margin-top: 20%;
     }
 
     .services li {
