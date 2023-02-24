@@ -29,7 +29,6 @@ import routes from "@/router/routerCostants";
 
 export default defineComponent({
   name: "NavigationBar",
-  props: {},
   components: { NavigationBarDropDown },
   data() {
     return {
