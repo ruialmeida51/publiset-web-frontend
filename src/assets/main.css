@@ -1,0 +1,71 @@
+@import './base.css';
+
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+pre {
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+
+#app {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+#app pre {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app button {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('./fonts/pxgrotesk/PxGroteskPan-Thin.ttf') format('truetype');
+  font-weight: thin;
+  font-style: thin;
+}
+
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('./fonts/pxgrotesk/PxGroteskPan-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'Px-Grotesk';
+  src: url('./fonts/pxgrotesk/PxGroteskPan-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
