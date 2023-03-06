@@ -1,4 +1,3 @@
-<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
   <div class="navigation">
     <div class="burger-menu" :class="{ open: toggled }" @click="onMenuClick">
@@ -16,10 +15,7 @@
     </div>
   </div>
 
-  <NavigationBarDropDown
-    @closeDropDown="closeDropdownMenu"
-    :toggled="toggled"
-  />
+  <NavigationBarDropDown @closeDropDown="closeDropdownMenu" :toggled="toggled" />
 </template>
 
 <script lang="ts">
@@ -35,7 +31,16 @@ export default defineComponent({
       toggled: false,
     };
   },
+  mounted() {
+    document.addEventListener("scroll", this.handleScroll, { passive: true });
+  },
+  unmounted() {
+    document.removeEventListener("scroll", this.handleScroll);
+  },
   methods: {
+    handleScroll() {
+      this.toggled = false;
+    },
     onContactUsClick() {
       this.$router.push({ name: routes.contactUsPageRoute.routeName });
     },
@@ -44,11 +49,10 @@ export default defineComponent({
       this.$router.push({ name: routes.landingPageRoute.routeName });
     },
 
-    closeDropdownMenu: function () {
+    closeDropdownMenu() {
       this.$data.toggled = false;
     },
-
-    onMenuClick: function () {
+    onMenuClick() {
       this.$data.toggled = !this.$data.toggled || false;
     },
   },
@@ -72,7 +76,9 @@ Publiset logo styling
 */
 .publiset-logo {
   margin: auto;
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
   width: 310px;
   height: 40px;
   cursor: pointer;
@@ -158,19 +164,30 @@ Burger menu styling
 /**
 Mobile/Low Resolution CSS
 */
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 800px) {
+
+  /**
+    Contact us styling
+    */
+  .contact-us {
+    display: none;
+  }
+
   /**
     Publiset logo styling
     */
-  .publiset-logo {
+    .publiset-logo {
     margin: 0;
     margin-right: 10px;
     margin-left: 10px;
     min-height: 30px;
     min-width: 155px;
     float: right;
+    position: relative;
   }
+}
 
+@media only screen and (max-width: 576px) {
   /**
     Contact us styling
     */

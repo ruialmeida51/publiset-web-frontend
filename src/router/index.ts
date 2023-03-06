@@ -28,6 +28,11 @@ const router = createRouter({
       name: routerConstants.aboutPageRoute.routeName,
       component: AboutPage,
     },
+    {
+      path: routerConstants.notFoundPageRoute.routeUrl,
+      name: routerConstants.notFoundPageRoute.routeName,
+      component: LandingPage
+    },
   ],
 });
 

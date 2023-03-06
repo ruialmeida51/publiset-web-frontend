@@ -24,36 +24,11 @@ export default defineComponent({
   name: "BottomBar",
   data() {
     return {
-      facebookLink: "https://facebook.com",
-      instagramLink: "https://facebook.com",
-      messengerLink: "https://facebook.com",
-      whatsAppLink: "https://facebook.com",
+      facebookLink: "https://www.facebook.com/publiset.design/",
+      instagramLink: "https://instagram.com/publiset.design/",
+      messengerLink: "https://m.me/publiset.design",
+      whatsAppLink: "https://wa.me/+351910929174",
     };
-  },
-  setup() {
-    //   const openHoursMessage = ref<string>();
-    //   const openHoursMessageVerbose =
-    //     "Segunda a Sexta — 09h00 . 12h30 — 14h00 . 18h00";
-    //   const openHoursMessageMobile = "09h00 . 12h30 — 14h00 . 18h00";
-    //   function onWindowResize() {
-    //     const w = window.innerWidth;
-    //     if (w < 576) {
-    //       openHoursMessage.value = openHoursMessageMobile;
-    //     } else {
-    //       openHoursMessage.value = openHoursMessageVerbose;
-    //     }
-    //   }
-    //   return {
-    //     openHoursMessage,
-    //     onWindowResize,
-    //   };
-    // },
-    // created() {
-    //   this.onWindowResize();
-    //   window.addEventListener("resize", this.onWindowResize);
-    // },
-    // unmounted() {
-    //   window.removeEventListener("resize", this.onWindowResize);
   },
 });
 </script>
@@ -65,9 +40,12 @@ Bottom bar styling
 .bottom-bar {
   height: 50px;
   margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   display: inline-flex;
   justify-content: flex-end;
   align-items: flex-end;
+  width: 100%;
 }
 
 /**

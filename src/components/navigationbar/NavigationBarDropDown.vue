@@ -1,8 +1,9 @@
 <template>
   <div :class="['burger-menu-dropdown', { visible: isBurgerMenuOpen }]">
+    <a @click="goTohome()">Início</a>
     <a @click="goToAboutUs()">Quem somos</a>
     <a @click="goToPortfolio()">Portfólio</a>
-    <a @click="goToContactUs()">Contactos</a>
+    <a class="dropdown-last-item" @click="goToContactUs()">Contactos</a>
   </div>
 </template>
 
@@ -26,6 +27,11 @@ export default defineComponent({
         return false;
       } else {
         return true;
+      }
+    },
+    goTohome() {
+      if (this.shouldNavigate(routes.landingPageRoute)) {
+        this.$router.push({ name: routes.landingPageRoute.routeName });
       }
     },
     goToPortfolio() {
@@ -62,6 +68,7 @@ Dropdown styling
   transform-origin: top center;
   position: fixed;
   margin-top: 55px;
+  border-radius: 10px;
 }
 
 .burger-menu-dropdown:not(.visible) {
@@ -74,7 +81,7 @@ Dropdown styling
 
 /* Links inside the dropdown */
 .burger-menu-dropdown a {
-  font-weight: regular;
+  font-weight: normal;
   color: #d0d0d0;
   padding: 12px 16px;
   text-decoration: none;
@@ -90,6 +97,10 @@ Dropdown styling
   text-decoration-thickness: 1px;
   text-decoration-color: white;
   text-underline-offset: 15px;
+}
+
+.dropdown-last-item {
+  margin-bottom: 16px;
 }
 
 @keyframes growDown {

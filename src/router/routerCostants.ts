@@ -10,9 +10,10 @@ export class PublisetRoute {
 
 export const routes = {
   aboutPageRoute: new PublisetRoute("aboutUs", "/about-us"),
-  contactUsPageRoute: new PublisetRoute("contactUs", "/contact-us"),
+  contactUsPageRoute: new PublisetRoute("contact-us", "/contact-us"),
   landingPageRoute: new PublisetRoute("landingPage", "/"),
   portfolioPageRoute: new PublisetRoute("portfolio", "/portfolio"),
+  notFoundPageRoute: new PublisetRoute("notFound", "/:pathMatch(.*)"),
 };
 
 export default routes;

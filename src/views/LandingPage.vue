@@ -1,29 +1,31 @@
 <template>
-  <NavigationBar />
-  <div class="landing-page">
-    <div class="title-div">
-      <h1 class="title">
-        <pre>{{ landingPageTitle }}</pre>
-      </h1>
+  <div class="landing-page-wrapper">
+    <NavigationBar />
+    <div class="landing-page">
+      <div class="title-div">
+        <h1 class="title">
+          <pre>{{ landingPageTitle }}</pre>
+        </h1>
+      </div>
+
+      <div class="services-div">
+        <ul class="services">
+          <li v-for="service in services" :key="service">
+            {{ service }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="catalog-div">
+        <p>Catálogos</p>
+        <button v-for="button in buttons" :key="button">
+          {{ button }}
+        </button>
+      </div>
     </div>
 
-    <div class="services-div">
-      <ul class="services">
-        <li v-for="service in services" :key="service">
-          {{ service }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="catalog-div">
-      <p>Catálogos</p>
-      <button v-for="button in buttons" :key="button">
-        {{ button }}
-      </button>
-    </div>
+    <BottomBar />
   </div>
-
-  <BottomBar />
 </template>
 
 <script lang="ts">
@@ -54,9 +56,6 @@ export default defineComponent({
       buttons: ["Roly", "Sol's", "Work Wear", "Stamina", "Impacto"],
     };
   },
-  setup() {
-    return {};
-  },
 });
 </script>
 
@@ -64,6 +63,14 @@ export default defineComponent({
 /*
 Landing page styling
 */
+.landing-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 .landing-page {
   display: grid;
   grid-gap: 10px;
@@ -156,19 +163,18 @@ Services styling
 /* Element counter */
 .services-div ul {
   list-style-type: none;
-  margin: 0;
   padding: 0;
 }
 
 .services-div li {
   font-size: 18px;
-  font-weight: regular;
+  font-weight: normal;
 }
 
 @media only screen and (max-width: 1600px) {
   .title {
     font-size: 150px;
-    line-height: 0.75em;
+    line-height: 1em;
     margin-bottom: 30px;
   }
 }
@@ -176,16 +182,17 @@ Services styling
 @media only screen and (max-width: 1460px) {
   .title {
     font-size: 150px;
-    line-height: 0.75em;
+    line-height: 1em;
     margin-bottom: 30px;
   }
 
   .landing-page {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: [col] auto;
-    grid-template-rows: [row] auto [row] auto [row] auto;
-    grid-template-areas: "left" "right" "content";
+    grid-template-columns: [col] auto [col] 1fr;
+    grid-template-rows: [row] auto [row] auto;
+    grid-template-areas: "left right" "content content";
+    row-gap: 65px;
     margin-left: 65px;
   }
 
@@ -194,13 +201,6 @@ Services styling
     align-items: end;
     display: inline-flex;
     margin-top: 65px;
-  }
-
-  .services-div {
-    grid-area: right;
-    align-items: center;
-    display: inline-flex;
-    margin: 0;
   }
 
   .catalog-div {
@@ -215,7 +215,22 @@ Services styling
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1400px) {
+  .title {
+    font-size: 150px;
+    line-height: 0.75em;
+    margin-bottom: 30px;
+  }
+
+  .title-div {
+    grid-area: left;
+    align-items: center;
+    display: inline-flex;
+    margin-top: 65px;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
   .title {
     font-size: 125px;
     line-height: 0.75em;
@@ -229,11 +244,19 @@ Services styling
     align-items: flex-start;
     flex-wrap: nowrap;
     margin-left: 30px;
+    row-gap: 10px;
     height: auto;
   }
 
   .catalog-div button {
     margin-top: 10px;
+  }
+
+  .services-div {
+    grid-area: right;
+    align-items: center;
+    display: inline-flex;
+    margin: 0;
   }
 }
 

@@ -1,51 +1,58 @@
 @import './base.css';
 
+html {
+  height: -webkit-fill-available;
+  /* We have to fix html height */
+}
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition: color 0.5s, background-color 0.5s;
+  display: flex;
   line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+  min-height: 100vh;
+  min-width: 100vh;
+  min-height: -webkit-fill-available;
+  min-width: -webkit-fill-available;
 }
-
-pre {
-  margin: 0;
-}
-
-h1 {
-  margin: 0;
-}
-
 
 #app {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   color: white;
   background-color: black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 #app pre {
+  margin: 0;
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app h1 {
+  margin: 0;
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 
 #app button {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app p {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app input {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app textarea {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 

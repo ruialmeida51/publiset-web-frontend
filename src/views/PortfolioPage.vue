@@ -1,11 +1,13 @@
 <template>
-  <NavigationBar />
-  <div class="portfolio-page">
-    <h1 class="title">
-      <pre>Portfolio</pre>
-    </h1>
+  <div class="portfolio-page-wrapper">
+    <NavigationBar />
+    <div class="portfolio-page">
+      <h1 class="title">
+        <p>🚧 Portfólio em construção 🚧</p>
+      </h1>
+    </div>
+    <BottomBar />
   </div>
-  <BottomBar />
 </template>
 
 <script lang="ts">
@@ -22,4 +24,24 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.portfolio-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.portfolio-page {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.portfolio-page p {
+  text-align: center;
+}
+</style>
