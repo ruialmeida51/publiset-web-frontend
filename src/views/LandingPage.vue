@@ -10,8 +10,8 @@
 
       <div class="services-div">
         <ul class="services">
-          <li v-for="service in services" :key="service.service">
-            {{ service.service }}
+          <li v-for="service in services" :key="service">
+            {{ service }}
           </li>
         </ul>
       </div>
@@ -59,7 +59,7 @@ export default defineComponent({
     fetchServices() {
       Promise.resolve(publisetServicesClient.getServices()).then((items) => {
         console.log("📝 Fetched services successfuly 📝");
-        this.services = items as Service[];
+        // this.services = items as Service[];
       });
     },
   },
