@@ -56,11 +56,15 @@ body {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 
+#app label {
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
 @font-face {
   font-family: 'Px-Grotesk';
   src: url('./fonts/pxgrotesk/PxGroteskPan-Thin.ttf') format('truetype');
-  font-weight: thin;
-  font-style: thin;
+  font-weight: oblique;
+  font-style: oblique;
 }
 
 @font-face {

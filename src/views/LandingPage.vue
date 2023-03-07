@@ -1,7 +1,7 @@
 <template>
   <div class="landing-page-wrapper">
     <NavigationBar />
-    <div class="landing-page">
+    <div class="landing-page page-content-horizontal-margins">
       <div class="title-div">
         <h1 class="title">
           <pre>{{ landingPageTitle }}</pre>
@@ -10,8 +10,8 @@
 
       <div class="services-div">
         <ul class="services">
-          <li v-for="service in services" :key="service">
-            {{ service }}
+          <li v-for="service in services" :key="service.service">
+            {{ service.service }}
           </li>
         </ul>
       </div>
@@ -32,6 +32,10 @@
 import { defineComponent } from "vue";
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
+import {
+  publisetServicesClient,
+  Service,
+} from "@/sdk/services/publisetServicesClient";
 
 export default defineComponent({
   name: "LandingPage",
@@ -39,8 +43,7 @@ export default defineComponent({
   data() {
     return {
       landingPageTitle: "less is the\nnew more",
-      services: [
-        "Vinil, decoração de montras e viaturas",
+      services: ["Vinil, decoração de montras e viaturas" +
         "Serigrafia, Estamparia e Sublimação, merchandise e têxteis",
         "Corte e gravação a laser, CNC",
         "Outdoors, luminosos e monoblocos",
@@ -48,13 +51,20 @@ export default defineComponent({
         "Sinalética",
         "Impressão 3D",
         "Brindes personalizados",
-        "Design, branding e gestão de redes socais.",
-      ],
-      instagramLink: "https://facebook.com",
-      messengerLink: "https://facebook.com",
-      whatsAppLink: "https://facebook.com",
+        "Design, branding e gestão de redes socais.,"],
       buttons: ["Roly", "Sol's", "Work Wear", "Stamina", "Impacto"],
     };
+  },
+  methods: {
+    fetchServices() {
+      Promise.resolve(publisetServicesClient.getServices()).then((items) => {
+        console.log("📝 Fetched services successfuly 📝");
+        this.services = items as Service[];
+      });
+    },
+  },
+  mounted() {
+    this.fetchServices();
   },
 });
 </script>
@@ -79,7 +89,6 @@ Landing page styling
   grid-template-areas: "left right" "content content";
   row-gap: 110px;
   height: 100%;
-  margin-left: 110px;
 }
 
 .title {
@@ -164,6 +173,7 @@ Services styling
 .services-div ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .services-div li {
@@ -175,7 +185,6 @@ Services styling
   .title {
     font-size: 150px;
     line-height: 1em;
-    margin-bottom: 30px;
   }
 }
 
@@ -183,7 +192,6 @@ Services styling
   .title {
     font-size: 150px;
     line-height: 1em;
-    margin-bottom: 30px;
   }
 
   .landing-page {
@@ -193,7 +201,6 @@ Services styling
     grid-template-rows: [row] auto [row] auto;
     grid-template-areas: "left right" "content content";
     row-gap: 65px;
-    margin-left: 65px;
   }
 
   .title-div {
@@ -201,6 +208,7 @@ Services styling
     align-items: end;
     display: inline-flex;
     margin-top: 65px;
+    margin-bottom: 65px;
   }
 
   .catalog-div {
@@ -218,13 +226,10 @@ Services styling
 @media only screen and (max-width: 1400px) {
   .title {
     font-size: 150px;
-    line-height: 0.75em;
-    margin-bottom: 30px;
   }
 
   .title-div {
     grid-area: left;
-    align-items: center;
     display: inline-flex;
     margin-top: 65px;
   }
@@ -243,9 +248,10 @@ Services styling
     flex-direction: column;
     align-items: flex-start;
     flex-wrap: nowrap;
-    margin-left: 30px;
-    row-gap: 10px;
     height: auto;
+    row-gap: 40px;
+    margin-left: 50px;
+    margin-right: 50px;
   }
 
   .catalog-div button {
@@ -260,7 +266,7 @@ Services styling
   }
 }
 
-@media only screen and (max-width: 630px) {
+@media only screen and (max-width: 900px) {
   .title {
     font-size: 100px;
     line-height: 0.75em;
@@ -273,8 +279,9 @@ Services styling
     flex-direction: column;
     align-items: flex-start;
     flex-wrap: nowrap;
-    margin-left: 30px;
     height: auto;
+    margin-left: 50px;
+    margin-right: 50px;
   }
 
   .catalog-div button {
@@ -282,7 +289,7 @@ Services styling
   }
 }
 
-@media only screen and (max-width: 520px) {
+@media only screen and (max-width: 560px) {
   .title {
     font-size: 80px;
     line-height: 0.75em;
@@ -294,12 +301,30 @@ Services styling
     flex-direction: column;
     align-items: flex-start;
     flex-wrap: nowrap;
-    margin-left: 30px;
     height: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .catalog-div {
+    align-items: start;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .catalog-div p {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100%;
   }
 
   .catalog-div button {
     margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100%;
   }
 }
 
@@ -315,8 +340,8 @@ Services styling
     flex-direction: column;
     align-items: flex-start;
     flex-wrap: nowrap;
-    margin-left: 15px;
     height: auto;
+    row-gap: 16px;
   }
 
   .services-div li {

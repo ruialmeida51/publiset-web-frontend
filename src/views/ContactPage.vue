@@ -1,24 +1,32 @@
 <template>
   <div class="contact-us-wrapper">
     <NavigationBar />
-    <div class="contact-us-page-wrapper">
+    <div class="contact-us-page-wrapper page-content-horizontal-margins page-content-vertical-margins">
       <div class="contact-us-page">
         <div class="contact-form">
           <div class="nameInputDiv contact-input-layout">
-            <p>Nome</p>
-            <input placeholder="Nome" required="true" />
+            <label for="name">
+              <input type="text" id="name" placeholder="Nome" />
+              <span>Nome</span>
+            </label>
           </div>
           <div class="emailInputDiv contact-input-layout">
-            <p>Email</p>
-            <input class="emailinput" type="email" placeholder="Email" required="true" />
+            <label for="email">
+              <input class="emailinput" type="email" placeholder="Email" required="true" />
+              <span>Email</span>
+            </label>
           </div>
           <div class="subjectInputDiv contact-input-layout">
-            <p>Assunto</p>
-            <input type="text" placeholder="Assunto" required="true" />
+            <label for="subject">
+              <input type="text" placeholder="Assunto" required="true" />
+              <span>Assunto</span>
+            </label>
           </div>
           <div class="messageInputDiv contact-input-layout">
-            <p>Mensagem</p>
-            <textarea id="message-textarea" ref="textarea" placeholder="Mensagem" required="true" />
+            <label for="textarea">
+              <textarea id="message-textarea" ref="textarea" placeholder="Mensagem" required="true" />
+              <span>Mensagem</span>
+            </label>
           </div>
           <div class="submitInputDiv contact-input-layout">
             <button>enviar e-mail</button>
@@ -95,16 +103,12 @@ export default defineComponent({
 
 .contact-us-page {
   display: grid;
-  grid-gap: 10px;
-  margin-top: 40px;
-  margin-left: 60px;
-  grid-template-columns: [col] 1fr [col] 1fr [col] 1fr;
+  grid-template-columns: [col] 0.5fr [col] 0.5fr [col] 1fr;
   grid-template-rows: [row] auto [row] auto;
   grid-template-areas: "info info map" "form form map";
-  row-gap: 40px;
-  column-gap: 10px;
+  column-gap: 100px;
   height: 100%;
-  width: 75%;
+  width: 100%;
   justify-content: end;
   align-items: center;
   align-content: center;
@@ -114,8 +118,8 @@ export default defineComponent({
   grid-area: form;
   display: grid;
   column-gap: 20px;
-  row-gap: 5px;
-  width: 75%;
+  row-gap: 10px;
+  width: 100%;
   grid-template-columns: [col] 1fr [col] 1fr [col] 1fr;
   grid-template-rows: [row] auto [row] auto [row] auto [row] auto;
   grid-template-areas: "name email email" "subject subject subject" "message message message" "submit submit submit";
@@ -124,10 +128,11 @@ export default defineComponent({
 .contact-information {
   grid-area: info;
   display: flex;
-  width: 75%;
+  width: 100%;
   flex-direction: column;
   flex-wrap: nowrap;
   align-items: stretch;
+  margin-bottom: 20px;
 }
 
 .contact-information-layout {
@@ -147,32 +152,35 @@ export default defineComponent({
 .map {
   grid-area: map;
   display: flex;
-  height: 90%;
-  width: 90%;
+  height: 85%;
+  width: 100%;
 }
 
 .google-map {
   height: 100%;
   width: 100%;
   border: 0;
-  border-radius: 16px;
+  max-height: 500px;
 }
 
 .nameInputDiv {
   grid-area: name;
+  margin-top: 10px;
 }
 
 .emailInputDiv {
   grid-area: email;
+  margin-top: 10px;
 }
 
 .subjectInputDiv {
   grid-area: subject;
+  margin-top: 10px;
 }
 
 .messageInputDiv {
   grid-area: message;
-  resize: vertical;
+  margin-top: 20px;
 }
 
 .contact-input-layout {
@@ -182,7 +190,6 @@ export default defineComponent({
 }
 
 .messageInputDiv textarea {
-  resize: vertical;
   min-width: 100%;
   font-size: 16px;
   font-weight: normal;
@@ -190,13 +197,18 @@ export default defineComponent({
   border: 0;
   padding: 0;
   padding-left: 5px;
-  padding-top: 5px;
   min-height: 80px;
-  width: 100%;
-  border-radius: 8px;
+  max-width: 100%;
+  max-height: 100%;
+  background: transparent;
+  border-bottom: 1px solid grey;
+  color: white;
+  font-style: oblique;
+  font-weight: oblique;
 }
 
 .messageInputDiv textarea:focus {
+  border-bottom: 1px solid white;
   outline: none;
 }
 
@@ -216,12 +228,23 @@ export default defineComponent({
 
 .submitInputDiv button {
   background-color: black;
-  border-radius: 0.5px;
-  border-color: rgb(220, 220, 220, 0.15);
+  border-color: rgb(220, 220, 220);
   color: white;
-  border-radius: 8px;
   height: 100%;
   width: 50%;
+  cursor: pointer;
+  padding: 0.6em 1.7em;
+  border: 1px solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.submitInputDiv button:hover {
+  background-color: #2d2d2d;
 }
 
 .contact-form input {
@@ -234,26 +257,63 @@ export default defineComponent({
   padding-left: 5px;
   min-height: 40px;
   width: 100%;
-  border-radius: 8px;
+  background: transparent;
+  border-bottom: 1px solid grey;
+  color: white;
+  font-style: oblique;
+  font-weight: oblique;
+}
+
+.contact-form input::placeholder {
+  opacity: 0;
+}
+
+.contact-form textarea::placeholder {
+  opacity: 0;
 }
 
 .contact-form input:focus {
   outline: none;
-}
-
-::-webkit-input-placeholder {
-  text-align: left;
-  font-family: "Px-Grotesk";
-  font-weight: normal;
-  font-size: 16px;
+  border-bottom: 1px solid white;
 }
 
 h3 {
   font-weight: normal;
 }
 
-.p {
-  margin: 0;
+label {
+  margin-bottom: 10px;
+  position: relative;
+  font-size: 16px;
+}
+
+span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(8px);
+  transition-duration: 300ms;
+}
+
+.subjectInputDiv label:focus-within>span,
+.nameInputDiv label:focus-within>span,
+.emailInputDiv label:focus-within>span,
+input:not(:placeholder-shown)+span {
+  color: grey;
+  transform: translateY(-10px);
+  font-size: 0.825em;
+}
+
+.messageInputDiv label:focus-within>span,
+textarea:not(:placeholder-shown)+span {
+  color: grey;
+  transform: translateY(-20px);
+  font-size: 0.825em;
+}
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: white;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -273,6 +333,7 @@ h3 {
     margin-left: 20px;
     margin-right: 20px;
   }
+
   .contact-us-page {
     flex: 1;
     display: flex;
@@ -284,10 +345,6 @@ h3 {
     margin-right: 20px;
     width: 100%;
     row-gap: 20px;
-  }
-
-  .contact-information {
-    width: 100%;
   }
 
   .contact-information-layout {

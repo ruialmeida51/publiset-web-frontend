@@ -1,3 +1,12 @@
 :root {
   background-color: black;
 }
+
+.page-content-horizontal-margins {
+  margin-left: 90px;
+  margin-right: 90px;
+}
+
+.page-content-vertical-margins {
+  margin-top: 40px;
+}

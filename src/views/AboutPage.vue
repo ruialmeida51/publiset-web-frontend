@@ -1,7 +1,7 @@
 <template>
   <div class="about-us-wrapper">
     <NavigationBar />
-    <div class="about-us-page">
+    <div class="about-us-page page-content-horizontal-margins page-content-vertical-margins">
       <div class="about-us-text">
         <h1>{{ whoAreWeTitle }}</h1>
         <p>{{ whoAreWeText }}</p>
@@ -65,10 +65,6 @@ export default defineComponent({
   display: grid;
   grid-gap: 10px;
   height: 100%;
-  margin-top: 40px;
-  margin-bottom: 20px;
-  margin-left: 40px;
-  margin-right: 40px;
   grid-template-columns: [col] 1fr [col] 1fr;
   grid-template-rows: [row] auto;
   grid-template-areas: "text image";
