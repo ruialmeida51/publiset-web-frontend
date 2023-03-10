@@ -1,53 +1,61 @@
 <template>
   <div class="about-us-wrapper">
     <NavigationBar />
-    <div class="about-us-page page-content-horizontal-margins page-content-vertical-margins">
-      <div class="about-us-text">
-        <h1>{{ whoAreWeTitle }}</h1>
-        <p>{{ whoAreWeText }}</p>
-        <h1>{{ whatWeDoTitle }}</h1>
-        <p>{{ whatWeDoText }}</p>
-      </div>
-
-      <div class="about-us-images">
-        <img class="about-us-image1" src="@/assets/pictures/publiset-building.png" />
-        <img class="about-us-image2" src="@/assets/pictures/publiset-building.png" />
-        <img class="about-us-image3" src="@/assets/pictures/publiset-building.png" />
-        <img class="about-us-image4" src="@/assets/pictures/publiset-building.png" />
-      </div>
+    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
+      <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false" :loader="loader"
+        :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
     </div>
+
+    <transition name="fade" mode="out-in">
+      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.state.error.valueOf()" />
+    </transition>
+
+    <transition name="fade" mode="out-in">
+      <div class="about-us-page page-content-horizontal-margins page-content-vertical-margins"
+        v-show="store.shouldShowContent">
+        <div class="about-us-text">
+          <h1>{{ store.state.aboutUs.title_one }}</h1>
+          <p>{{ store.state.aboutUs.description_one }}</p>
+          <h1>{{ store.state.aboutUs.title_two }}</h1>
+          <p>{{ store.state.aboutUs.description_two }}</p>
+        </div>
+
+        <div class="about-us-images">
+          <img class="about-us-image1" src="@/assets/pictures/publiset-building.png" />
+          <img class="about-us-image2" src="@/assets/pictures/publiset-building.png" />
+          <img class="about-us-image3" src="@/assets/pictures/publiset-building.png" />
+          <img class="about-us-image4" src="@/assets/pictures/publiset-building.png" />
+        </div>
+      </div>
+    </transition>
     <BottomBar />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { aboutPageStore } from "@/sdk/store/aboutpage/aboutPageStore";
+
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
+import ErrorComponent from "@/components/error/ErrorComponent.vue";
 
 export default defineComponent({
   name: "AboutPage",
-  components: { NavigationBar, BottomBar },
+  components: { NavigationBar, BottomBar, ErrorComponent },
+  setup() {
+    const store = aboutPageStore.useAboutUsStore();
+    return { store };
+  },
   data() {
     return {
-      whatWeDoTitle: "O que fazemos",
-      whatWeDoText:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada " +
-        " consequat metus ut rhoncus. Curabitur fermentum orci sapien, vestibulum ornare magna sollicitudin " +
-        " pellentesque. Ut ornare id enim non vulputate. Suspendisse potenti. Aenean eu turpis vitae turpis " +
-        " consectetur placerat. Fusce venenatis viverra metus. Fusce posuere id justo in dictum. Pellentesque " +
-        " consequat lectus vitae leo suscipit aliquet. Integer in lectus a tellus porttitor accumsan id id ligula. " +
-        " Fusce nec ligula condimentum, rhoncus enim ac, laoreet leo.",
-      whoAreWeTitle: "Quem somos",
-      whoAreWeText:
-        "Com início de atividade em 1994, a Publiset " +
-        " é hoje reconhecida como uma empresa de referência no setor das artes gráficas. " +
-        " Em 2020 a nova gerência sentiu a necessidade de apostar no desenvolvimento tecnológico, " +
-        " aliando as novas técnicas, materiais e métodos de produção. Esta aposta na modernização " +
-        " permite responder às exigências e expectativas dos clientes nos mais diversos setores. " +
-        " É unanimemente reconhecido o impulso nestes últimos anos, mantendo sempre o compromisso " +
-        " entre tradição, modernidade e qualidade.",
+      loader: "dots",
+      backgroundColor: "#000",
+      dotsColor: "#fff",
     };
+  },
+  mounted() {
+    this.store.fetchData();
   },
 });
 </script>
@@ -59,6 +67,20 @@ export default defineComponent({
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+}
+
+.error-component {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.fullscreen-loading-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 0;
 }
 
 .about-us-page {

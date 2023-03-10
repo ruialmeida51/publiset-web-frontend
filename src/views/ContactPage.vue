@@ -1,85 +1,105 @@
 <template>
   <div class="contact-us-wrapper">
     <NavigationBar />
-    <div class="contact-us-page-wrapper page-content-horizontal-margins page-content-vertical-margins">
-      <div class="contact-us-page">
-        <div class="contact-form">
-          <div class="nameInputDiv contact-input-layout">
-            <label for="name">
-              <input type="text" id="name" placeholder="Nome" />
-              <span>Nome</span>
-            </label>
+    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
+      <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false" :loader="loader"
+        :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
+    </div>
+
+    <transition name="fade" mode="out-in">
+      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.state.error.valueOf()" />
+    </transition>
+
+    <transition name="fade" mode="out-in">
+      <div class="contact-us-page-wrapper page-content-horizontal-margins page-content-vertical-margins" v-show="store.shouldShowContent">
+        <div class="contact-us-page">
+          <div class="contact-form">
+            <div class="nameInputDiv contact-input-layout">
+              <label for="name">
+                <input type="text" id="name" placeholder="Nome" />
+                <span>Nome</span>
+              </label>
+            </div>
+            <div class="emailInputDiv contact-input-layout">
+              <label for="email">
+                <input class="emailinput" type="email" placeholder="Email" required="true" />
+                <span>Email</span>
+              </label>
+            </div>
+            <div class="subjectInputDiv contact-input-layout">
+              <label for="subject">
+                <input type="text" placeholder="Assunto" required="true" />
+                <span>Assunto</span>
+              </label>
+            </div>
+            <div class="messageInputDiv contact-input-layout">
+              <label for="textarea">
+                <textarea id="message-textarea" ref="textarea" placeholder="Mensagem" required="true" />
+                <span>Mensagem</span>
+              </label>
+            </div>
+            <div class="submitInputDiv contact-input-layout">
+              <button>enviar e-mail</button>
+            </div>
           </div>
-          <div class="emailInputDiv contact-input-layout">
-            <label for="email">
-              <input class="emailinput" type="email" placeholder="Email" required="true" />
-              <span>Email</span>
-            </label>
+          <div class="contact-information">
+            <div class="emailTitleDiv contact-information-layout">
+              <img class="contact-information-icon" src="@/assets/icons/ic-mail.png" />
+              <!--<h1>Email</h1>-->
+              <h3>{{ email }}</h3>
+            </div>
+            <div class="phonetitle contact-information-layout">
+              <img class="contact-information-icon" src="@/assets/icons/ic-phone-call.png" />
+              <!--<h1>Telemóvel</h1>-->
+              <h3>{{ telephone }}</h3>
+            </div>
+            <div class="addresstitle contact-information-layout">
+              <img class="contact-information-icon" src="@/assets/icons/ic-address.png" />
+              <!--<h1>Morada</h1>-->
+              <h3>{{ address }}</h3>
+            </div>
+            <div class="openhourstitle contact-information-layout">
+              <img class="contact-information-icon" src="@/assets/icons/ic-calendar.png" />
+              <!--<h1>Horário</h1>-->
+              <h3>{{ openHours }}</h3>
+            </div>
           </div>
-          <div class="subjectInputDiv contact-input-layout">
-            <label for="subject">
-              <input type="text" placeholder="Assunto" required="true" />
-              <span>Assunto</span>
-            </label>
+          <div class="map">
+            <iframe class="google-map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1062.903990181407!2d-8.207913119634714!3d41.105123559452466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd249976e9bd574d%3A0x3ce237a2c72897e8!2sR.%20de%20Agrelos!5e0!3m2!1sen!2spt!4v1677798623721!5m2!1sen!2spt"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
-          <div class="messageInputDiv contact-input-layout">
-            <label for="textarea">
-              <textarea id="message-textarea" ref="textarea" placeholder="Mensagem" required="true" />
-              <span>Mensagem</span>
-            </label>
-          </div>
-          <div class="submitInputDiv contact-input-layout">
-            <button>enviar e-mail</button>
-          </div>
-        </div>
-        <div class="contact-information">
-          <div class="emailTitleDiv contact-information-layout">
-            <img class="contact-information-icon" src="@/assets/icons/ic-mail.png" />
-            <!--<h1>Email</h1>-->
-            <h3>{{ email }}</h3>
-          </div>
-          <div class="phonetitle contact-information-layout">
-            <img class="contact-information-icon" src="@/assets/icons/ic-phone-call.png" />
-            <!--<h1>Telemóvel</h1>-->
-            <h3>{{ telephone }}</h3>
-          </div>
-          <div class="addresstitle contact-information-layout">
-            <img class="contact-information-icon" src="@/assets/icons/ic-address.png" />
-            <!--<h1>Morada</h1>-->
-            <h3>{{ address }}</h3>
-          </div>
-          <div class="openhourstitle contact-information-layout">
-            <img class="contact-information-icon" src="@/assets/icons/ic-calendar.png" />
-            <!--<h1>Horário</h1>-->
-            <h3>{{ openHours }}</h3>
-          </div>
-        </div>
-        <div class="map">
-          <iframe class="google-map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1062.903990181407!2d-8.207913119634714!3d41.105123559452466!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd249976e9bd574d%3A0x3ce237a2c72897e8!2sR.%20de%20Agrelos!5e0!3m2!1sen!2spt!4v1677798623721!5m2!1sen!2spt"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
-    </div>
+    </transition>
     <BottomBar />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import contactUsPageStore from "@/sdk/store/contactpage/contactPageStore";
+
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
+import ErrorComponent from "@/components/error/ErrorComponent.vue";
 
 export default defineComponent({
   name: "ContactPage",
-  components: { NavigationBar, BottomBar },
+  components: { NavigationBar, BottomBar, ErrorComponent },
+  setup() {
+    const store = contactUsPageStore.useContactUsStore();
+    return { store };
+  },
   data() {
     return {
-      address: "Rua de Agrelos 421, 4625-556 São Lourenço do Douro, Portugal",
-      telephone: "+351 910 929 174",
-      email: "geral@publiset.pt",
-      openHours: "Segunda à Sexta | 09h00 . 12h30 - 14h00 . 18h00",
+      loader: "dots",
+      backgroundColor: "#000",
+      dotsColor: "#fff",
     };
+  },
+  mounted() {
+    this.store.fetchData();
   },
 });
 </script>
@@ -99,6 +119,21 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+
+.error-component {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.fullscreen-loading-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 0;
 }
 
 .contact-us-page {
@@ -139,6 +174,7 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   min-width: 100%;
+  margin-bottom: 20px;
 }
 
 .contact-information-icon {

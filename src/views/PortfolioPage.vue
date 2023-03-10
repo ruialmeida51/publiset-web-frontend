@@ -1,11 +1,17 @@
 <template>
   <div class="portfolio-page-wrapper">
     <NavigationBar />
-    <div class="portfolio-page page-content-horizontal-margins page-content-vertical-margins">
-      <h1 class="title">
-        <p>🚧 Portfólio em construção 🚧</p>
-      </h1>
-    </div>
+    <!--<transition name="fade" mode="out-in">
+      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.state.error.valueOf()" />
+    </transition>
+-->
+    <transition name="fade" mode="out-in">
+      <div class="portfolio-page page-content-horizontal-margins page-content-vertical-margins">
+        <h1 class="title">
+          <p>🚧 Portfólio em construção 🚧</p>
+        </h1>
+      </div>
+    </transition>
     <BottomBar />
   </div>
 </template>

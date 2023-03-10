@@ -8,7 +8,7 @@ import {
   Catalog,
 } from "@/sdk/services/publisetCatalogClient";
 
-import ErrorState from "../model/ErrorState";
+import ErrorState from "../error/errorState";
 import axios from "axios";
 
 export module landingPageStore {

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import ErrorStates from "@/sdk/store/model/errorState";
+import ErrorStates from "@/sdk/store/error/errorState";
 import { defineComponent, reactive, ref, toRefs, watch } from "vue";
 
 class ErrorInformation {
