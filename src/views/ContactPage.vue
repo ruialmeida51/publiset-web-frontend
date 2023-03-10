@@ -46,22 +46,22 @@
             <div class="emailTitleDiv contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-mail.png" />
               <!--<h1>Email</h1>-->
-              <h3>{{ email }}</h3>
+              <h3>{{ store.state.contactUs.email }}</h3>
             </div>
             <div class="phonetitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-phone-call.png" />
               <!--<h1>Telemóvel</h1>-->
-              <h3>{{ telephone }}</h3>
+              <h3>{{ store.state.contactUs.phone }}</h3>
             </div>
             <div class="addresstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-address.png" />
               <!--<h1>Morada</h1>-->
-              <h3>{{ address }}</h3>
+              <h3>{{ store.state.contactUs.address }}</h3>
             </div>
             <div class="openhourstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-calendar.png" />
               <!--<h1>Horário</h1>-->
-              <h3>{{ openHours }}</h3>
+              <h3>{{ store.state.contactUs.openHours }}</h3>
             </div>
           </div>
           <div class="map">

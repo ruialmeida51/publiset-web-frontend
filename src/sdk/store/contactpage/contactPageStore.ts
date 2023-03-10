@@ -7,16 +7,16 @@ import axios from "axios";
 export module contactUsPageStore {
   export class ContactUsPageState {
     loading: boolean;
-    aboutUs: ContactUs;
+    contactUs: ContactUs;
     error: ErrorState.ErrorStatesEnum;
 
     constructor(
       loading: boolean,
-      aboutUs: ContactUs,
+      contactUs: ContactUs,
       error: ErrorState.ErrorStatesEnum
     ) {
       this.loading = loading;
-      this.aboutUs = aboutUs;
+      this.contactUs = contactUs;
       this.error = error;
     }
   }
