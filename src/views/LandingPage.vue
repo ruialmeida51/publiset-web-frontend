@@ -105,6 +105,7 @@ Landing page styling
   display: flex;
   height: 100%;
   justify-content: center;
+  text-align: center;
 }
 
 .landing-page {

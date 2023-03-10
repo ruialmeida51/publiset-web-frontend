@@ -73,6 +73,7 @@ export default defineComponent({
   display: flex;
   height: 100%;
   justify-content: center;
+  text-align: center;
 }
 
 .fullscreen-loading-wrapper {
