@@ -15,7 +15,10 @@
     </div>
   </div>
 
-  <NavigationBarDropDown @closeDropDown="closeDropdownMenu" :toggled="toggled" />
+  <NavigationBarDropDown
+    @closeDropDown="closeDropdownMenu"
+    :toggled="toggled"
+  />
 </template>
 
 <script lang="ts">
@@ -165,7 +168,6 @@ Burger menu styling
 Mobile/Low Resolution CSS
 */
 @media only screen and (max-width: 800px) {
-
   /**
     Contact us styling
     */
@@ -176,7 +178,7 @@ Mobile/Low Resolution CSS
   /**
     Publiset logo styling
     */
-    .publiset-logo {
+  .publiset-logo {
     margin: 0;
     margin-right: 10px;
     margin-left: 10px;

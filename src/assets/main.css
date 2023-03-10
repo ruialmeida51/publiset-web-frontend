@@ -40,6 +40,21 @@ body {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 
+#app h2 {
+  margin: 0;
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app h3 {
+  margin: 0;
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
+#app h4 {
+  margin: 0;
+  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
+}
+
 #app button {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }

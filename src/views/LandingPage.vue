@@ -1,70 +1,90 @@
 <template>
   <div class="landing-page-wrapper">
     <NavigationBar />
-    <div class="landing-page page-content-horizontal-margins">
-      <div class="title-div">
-        <h1 class="title">
-          <pre>{{ landingPageTitle }}</pre>
-        </h1>
-      </div>
-
-      <div class="services-div">
-        <ul class="services">
-          <li v-for="service in services" :key="service">
-            {{ service }}
-          </li>
-        </ul>
-      </div>
-
-      <div class="catalog-div">
-        <p>Catálogos</p>
-        <button v-for="button in buttons" :key="button">
-          {{ button }}
-        </button>
-      </div>
+    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
+      <fullscren-loading
+        class="fullscreen-overlay"
+        :active="store.state.loading"
+        :is-full-page="false"
+        :loader="loader"
+        :background-color="backgroundColor"
+        :opacity="1"
+        :color="dotsColor"
+      />
     </div>
 
+    <transition name="fade" mode="out-in">
+      <ErrorComponent
+        class="error-component"
+        v-show="store.shouldShowError"
+        :errorState="store.state.error.valueOf()"
+      />
+    </transition>
+
+    <transition name="fade" mode="out-in">
+      <div
+        class="landing-page page-content-horizontal-margins"
+        v-show="store.shouldShowContent"
+      >
+        <div class="title-div">
+          <h1 class="title">
+            <pre>{{ store.state.title }}</pre>
+          </h1>
+        </div>
+
+        <div class="services-div">
+          <ul class="services">
+            <li v-for="service in store.state.services" :key="service.service">
+              {{ service.service }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="catalog-div">
+          <p>Catálogos</p>
+          <button
+            v-for="button in store.state.catalogs"
+            :key="button.name"
+            @click="goToHyperlink(button.redirectUrl)"
+          >
+            {{ button.name }}
+          </button>
+        </div>
+      </div>
+    </transition>
     <BottomBar />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { landingPageStore } from "@/sdk/store/landingpage/landingPageStore";
+
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
-import {
-  publisetServicesClient,
-  Service,
-} from "@/sdk/services/publisetServicesClient";
+import ErrorComponent from "@/components/error/ErrorComponent.vue";
 
 export default defineComponent({
   name: "LandingPage",
-  components: { NavigationBar, BottomBar },
+  components: { NavigationBar, BottomBar, ErrorComponent },
+  setup() {
+    const store = landingPageStore.useLandingPageStore();
+    return { store };
+  },
   data() {
     return {
-      landingPageTitle: "less is the\nnew more",
-      services: ["Vinil, decoração de montras e viaturas" +
-        "Serigrafia, Estamparia e Sublimação, merchandise e têxteis",
-        "Corte e gravação a laser, CNC",
-        "Outdoors, luminosos e monoblocos",
-        "Impressão digital de grande e pequeno formato",
-        "Sinalética",
-        "Impressão 3D",
-        "Brindes personalizados",
-        "Design, branding e gestão de redes socais.,"],
-      buttons: ["Roly", "Sol's", "Work Wear", "Stamina", "Impacto"],
+      loader: "dots",
+      backgroundColor: "#000",
+      dotsColor: "#fff",
     };
   },
   methods: {
-    fetchServices() {
-      Promise.resolve(publisetServicesClient.getServices()).then((items) => {
-        console.log("📝 Fetched services successfuly 📝");
-        // this.services = items as Service[];
-      });
+    goToHyperlink(url: string) {
+      window.open(url, "_blank");
     },
   },
   mounted() {
-    this.fetchServices();
+    this.store.fetchData();
   },
 });
 </script>
@@ -79,6 +99,12 @@ Landing page styling
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+}
+
+.error-component {
+  display: flex;
+  height: 100%;
+  justify-content: center;
 }
 
 .landing-page {
@@ -179,6 +205,14 @@ Services styling
 .services-div li {
   font-size: 18px;
   font-weight: normal;
+}
+
+.fullscreen-loading-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 0;
 }
 
 @media only screen and (max-width: 1600px) {
