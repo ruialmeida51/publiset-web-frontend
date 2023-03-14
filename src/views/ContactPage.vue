@@ -51,7 +51,7 @@
             <div class="phonetitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-phone-call.png" />
               <!--<h1>Telemóvel</h1>-->
-              <h3>{{ store.state.contactUs.phone }}</h3>
+              <h3>{{ store.state.contactUs.phone_number }}</h3>
             </div>
             <div class="addresstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-address.png" />
@@ -61,7 +61,7 @@
             <div class="openhourstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-calendar.png" />
               <!--<h1>Horário</h1>-->
-              <h3>{{ store.state.contactUs.openHours }}</h3>
+              <h3>{{ store.state.contactUs.open_hours }}</h3>
             </div>
           </div>
           <div class="map">
@@ -78,7 +78,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import contactUsPageStore from "@/sdk/store/contactpage/contactPageStore";
+import useContactUsStore from "@/sdk/store/contactpage/contactPageStore";
 
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
@@ -88,7 +88,7 @@ export default defineComponent({
   name: "ContactPage",
   components: { NavigationBar, BottomBar, ErrorComponent },
   setup() {
-    const store = contactUsPageStore.useContactUsStore();
+    const store = useContactUsStore();
     return { store };
   },
   data() {
@@ -121,11 +121,11 @@ export default defineComponent({
   height: 100%;
 }
 
-
 .error-component {
   display: flex;
   height: 100%;
   justify-content: center;
+  text-align: center;
 }
 
 .fullscreen-loading-wrapper {

@@ -1,26 +1,31 @@
 import axios from "axios";
-import { transformResponse, type Response } from "@/sdk/service";
+import {
+  transformArrayResponse,
+  transformResponse,
+  type Response,
+} from "@/sdk/service";
 
-export class AboutUs {
-  title_one: string;
-  description_one: string;
-  title_two: string|null;
-  description_two: string|null;
-
-  constructor(title_one: string, description_one: string, title_two: string|null, description_two: string|null) {
-    this.title_one = title_one;
-    this.description_one = description_one;
-    this.title_two = title_two;
-    this.description_two = description_two;
-  }
-}
+import { AboutUs } from "../model/domain/aboutUs/aboutUs";
+import Image from "../model/domain/aboutUs/image";
+import type { AboutUsResponse } from "../model/remote/aboutUs/aboutUsResponse";
 
 export module publisetAboutUsClient {
-  const path = import.meta.env.VITE_SERVER_URL + "/about-us";
+  const path = import.meta.env.VITE_API_URL + "/about-us?populate=*";
 
   export async function getAboutUs(): Promise<AboutUs> {
-    const request = await axios.get<Response<AboutUs>>(path);
-    return transformResponse(request.data);
+    const request = await axios.get<Response<AboutUsResponse>>(path);
+    const aboutUsRemoteResponse = transformResponse(request.data);
+    const imageResponse = transformArrayResponse(aboutUsRemoteResponse.images);
+
+    const aboutUs = new AboutUs(
+      aboutUsRemoteResponse.title_one,
+      aboutUsRemoteResponse.description_one,
+      aboutUsRemoteResponse.title_two,
+      aboutUsRemoteResponse.description_two,
+      imageResponse.map((imageResponse) => new Image(imageResponse.formats))
+    );
+
+    return aboutUs;
   }
 }
 

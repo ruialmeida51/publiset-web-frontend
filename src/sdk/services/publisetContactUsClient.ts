@@ -1,26 +1,20 @@
 import axios from "axios";
 import { transformResponse, type Response } from "@/sdk/service";
-
-export class ContactUs {
-  email: string;
-  phone: string;
-  address: string;
-  openHours: string;
-
-  constructor(email: string, phone: string, address: string, openHours: string) {
-    this.email = email;
-    this.phone = phone;
-    this.address = address;
-    this.openHours = openHours;
-  }
-}
+import type ContactUsResponse from "../model/remote/contactUs/contactUsResponse";
+import ContactUs from "../model/domain/contactUs/contactUs";
 
 export module publisetContactUsClient {
-  const path = import.meta.env.VITE_SERVER_URL + "/contact-us";
+  const path = import.meta.env.VITE_API_URL + "/contact";
 
   export async function getContactUs(): Promise<ContactUs> {
-    const request = await axios.get<Response<ContactUs>>(path);
-    return transformResponse(request.data);
+    const request = await axios.get<Response<ContactUsResponse>>(path);
+    const contactUsResponse = transformResponse(request.data);
+    return new ContactUs(
+      contactUsResponse.email,
+      contactUsResponse.phone_number,
+      contactUsResponse.address,
+      contactUsResponse.open_hours
+    );
   }
 }
 

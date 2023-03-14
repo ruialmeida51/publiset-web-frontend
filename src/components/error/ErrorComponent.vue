@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import ErrorStates from "@/sdk/store/error/errorState";
-import { defineComponent, reactive, ref, toRefs, watch } from "vue";
+import ErrorStates from "@/sdk/model/store/error/errorState";
+import { defineComponent, ref, toRefs, watch } from "vue";
 
 class ErrorInformation {
   code: string;
@@ -39,7 +39,7 @@ export default defineComponent({
       { immediate: true }
     );
 
-    function evaluateError(errorState: number | undefined) {
+    function evaluateError(errorState: Number | undefined) {
       if (errorState == ErrorStates.ErrorStatesEnum.NetworkError.valueOf()) {
         errorInformation.value = new ErrorInformation(
           "400",

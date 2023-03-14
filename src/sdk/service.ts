@@ -18,7 +18,6 @@ export function transformResponse<T>(response: Response<T>): T {
 
 export function transformArrayResponse<T>(response: ArrayResponse<T>): T[] {
   const items: T[] = [];
-
   response.data.forEach((item) => {
     items.push(item.attributes);
   });

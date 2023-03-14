@@ -31,7 +31,7 @@ const router = createRouter({
     {
       path: routerConstants.notFoundPageRoute.routeUrl,
       name: routerConstants.notFoundPageRoute.routeName,
-      component: LandingPage
+      component: LandingPage,
     },
   ],
 });

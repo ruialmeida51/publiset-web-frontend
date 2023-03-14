@@ -17,7 +17,7 @@
       <ErrorComponent
         class="error-component"
         v-show="store.shouldShowError"
-        :errorState="store.state.error.valueOf()"
+        :errorState="store.state.error"
       />
     </transition>
 
@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { landingPageStore } from "@/sdk/store/landingpage/landingPageStore";
+import useLandingPageStore from "@/sdk/store/landingpage/landingPageStore";
 
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
@@ -68,7 +68,7 @@ export default defineComponent({
   name: "LandingPage",
   components: { NavigationBar, BottomBar, ErrorComponent },
   setup() {
-    const store = landingPageStore.useLandingPageStore();
+    const store = useLandingPageStore();
     return { store };
   },
   data() {
@@ -105,7 +105,6 @@ Landing page styling
   display: flex;
   height: 100%;
   justify-content: center;
-  text-align: center;
 }
 
 .landing-page {

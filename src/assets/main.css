@@ -30,48 +30,8 @@ body {
   width: 100%;
 }
 
-#app pre {
+#app pre, p, h1, h2, h3, h4, button, input, textarea, label {
   margin: 0;
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app h1 {
-  margin: 0;
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app h2 {
-  margin: 0;
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app h3 {
-  margin: 0;
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app h4 {
-  margin: 0;
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app button {
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app p {
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app input {
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app textarea {
-  font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
-}
-
-#app label {
   font-family: Px-Grotesk, Avenir, Helvetica, Arial, sans-serif;
 }
 

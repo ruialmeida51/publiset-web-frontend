@@ -2,17 +2,30 @@
   <div class="about-us-wrapper">
     <NavigationBar />
     <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
-      <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false" :loader="loader"
-        :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
+      <fullscren-loading
+        class="fullscreen-overlay"
+        :active="store.state.loading"
+        :is-full-page="false"
+        :loader="loader"
+        :background-color="backgroundColor"
+        :opacity="1"
+        :color="dotsColor"
+      />
     </div>
 
     <transition name="fade" mode="out-in">
-      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.state.error.valueOf()" />
+      <ErrorComponent
+        class="error-component"
+        v-show="store.shouldShowError"
+        :errorState="store.state.error.valueOf()"
+      />
     </transition>
 
     <transition name="fade" mode="out-in">
-      <div class="about-us-page page-content-horizontal-margins page-content-vertical-margins"
-        v-show="store.shouldShowContent">
+      <div
+        class="about-us-page page-content-horizontal-margins page-content-vertical-margins"
+        v-show="store.shouldShowContent"
+      >
         <div class="about-us-text">
           <h1>{{ store.state.aboutUs.title_one }}</h1>
           <p>{{ store.state.aboutUs.description_one }}</p>
@@ -21,10 +34,12 @@
         </div>
 
         <div class="about-us-images">
-          <img class="about-us-image1" src="@/assets/pictures/publiset-building.png" />
-          <img class="about-us-image2" src="@/assets/pictures/publiset-building.png" />
-          <img class="about-us-image3" src="@/assets/pictures/publiset-building.png" />
-          <img class="about-us-image4" src="@/assets/pictures/publiset-building.png" />
+          <img
+            v-for="(image, index) in store.state.aboutUs.images"
+            :key="image.formats.thumbnail.url"
+            :class="`about-us-image${index + 1}`"
+            :src="`${createImageUrl(image.formats.thumbnail.url)}`"
+          />
         </div>
       </div>
     </transition>
@@ -34,8 +49,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { aboutPageStore } from "@/sdk/store/aboutpage/aboutPageStore";
 
+import useAboutUsStore from "@/sdk/store/aboutpage/aboutPageStore";
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
 import ErrorComponent from "@/components/error/ErrorComponent.vue";
@@ -44,7 +59,8 @@ export default defineComponent({
   name: "AboutPage",
   components: { NavigationBar, BottomBar, ErrorComponent },
   setup() {
-    const store = aboutPageStore.useAboutUsStore();
+    const store = useAboutUsStore();
+
     return { store };
   },
   data() {
@@ -52,7 +68,14 @@ export default defineComponent({
       loader: "dots",
       backgroundColor: "#000",
       dotsColor: "#fff",
+      baseUrl: "" as string,
     };
+  },
+  methods: {
+    createImageUrl(imageUrl: string): string {
+      console.log(imageUrl);
+      return import.meta.env.VITE_SERVER_URL + imageUrl;
+    },
   },
   mounted() {
     this.store.fetchData();
@@ -118,6 +141,8 @@ export default defineComponent({
   font-size: 18px;
   word-wrap: break-word;
   white-space: pre-line;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .about-us-images {
