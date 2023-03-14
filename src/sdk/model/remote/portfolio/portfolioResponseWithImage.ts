@@ -3,10 +3,10 @@ import type ImageResponse from "../images/imageResponse";
 
 export default class PortfolioResponseWithImages {
   category_name: string;
-  images: ArrayResponse<ImageResponse>;
+  media: ArrayResponse<ImageResponse>;
 
-  constructor(category_name: string, images: ArrayResponse<ImageResponse>) {
+  constructor(category_name: string, media: ArrayResponse<ImageResponse>) {
     this.category_name = category_name;
-    this.images = images;
+    this.media = media;
   }
 }

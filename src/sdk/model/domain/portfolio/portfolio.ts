@@ -1,7 +1,7 @@
 export default class Portfolio {
-  categories: string[];
+  categories: Map<string, string>;
 
-  constructor(categories: string[]) {
+  constructor(categories: Map<string, string>) {
     this.categories = categories;
   }
 }

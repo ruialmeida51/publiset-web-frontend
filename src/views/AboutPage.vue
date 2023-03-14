@@ -1,10 +1,10 @@
 <template>
   <div class="about-us-wrapper">
     <NavigationBar />
-    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
+    <div class="fullscreen-loading-wrapper" v-show="store.loading">
       <fullscren-loading
         class="fullscreen-overlay"
-        :active="store.state.loading"
+        :active="store.loading"
         :is-full-page="false"
         :loader="loader"
         :background-color="backgroundColor"
@@ -17,7 +17,7 @@
       <ErrorComponent
         class="error-component"
         v-show="store.shouldShowError"
-        :errorState="store.state.error.valueOf()"
+        :errorState="store.error.valueOf()"
       />
     </transition>
 
@@ -27,15 +27,15 @@
         v-show="store.shouldShowContent"
       >
         <div class="about-us-text">
-          <h1>{{ store.state.aboutUs.title_one }}</h1>
-          <p>{{ store.state.aboutUs.description_one }}</p>
-          <h1>{{ store.state.aboutUs.title_two }}</h1>
-          <p>{{ store.state.aboutUs.description_two }}</p>
+          <h1>{{ store.aboutUs.title_one }}</h1>
+          <p>{{ store.aboutUs.description_one }}</p>
+          <h1>{{ store.aboutUs.title_two }}</h1>
+          <p>{{ store.aboutUs.description_two }}</p>
         </div>
 
         <div class="about-us-images">
           <img
-            v-for="(image, index) in store.state.aboutUs.images"
+            v-for="(image, index) in store.aboutUs.images"
             :key="image.formats.thumbnail.url"
             :class="`about-us-image${index + 1}`"
             :src="`${createImageUrl(image.formats.thumbnail.url)}`"
@@ -73,9 +73,11 @@ export default defineComponent({
   },
   methods: {
     createImageUrl(imageUrl: string): string {
-      console.log(imageUrl);
       return import.meta.env.VITE_SERVER_URL + imageUrl;
     },
+  },
+  unmounted() {
+    this.store.resetState();
   },
   mounted() {
     this.store.fetchData();

@@ -24,3 +24,14 @@ export function transformArrayResponse<T>(response: ArrayResponse<T>): T[] {
 
   return items;
 }
+
+export function transformArrayResponseWithIds<T>(
+  response: ArrayResponse<T>
+): Map<string, T> {
+  const items = new Map<string, T>();
+  response.data.forEach((item) => {
+    items.set(item.id, item.attributes);
+  });
+
+  return items;
+}

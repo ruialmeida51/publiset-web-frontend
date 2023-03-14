@@ -1,24 +1,44 @@
 <template>
-  <div class="portfolio-page-wrapper">
+  <div class="portfolio-wrapper">
     <NavigationBar />
     <transition name="fade" mode="out-in">
       <div class="portfolio-page-wrapper">
-        <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
-          <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false"
-            :loader="loader" :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
+        <div class="fullscreen-loading-wrapper" v-show="store.loading">
+          <fullscren-loading
+            class="fullscreen-overlay"
+            :active="store.loading"
+            :is-full-page="false"
+            :loader="loader"
+            :background-color="backgroundColor"
+            :opacity="1"
+            :color="dotsColor"
+          />
         </div>
 
         <transition name="fade" mode="out-in">
-          <ErrorComponent class="error-component" v-show="store.shouldShowError"
-            :errorState="store.state.error.valueOf()" />
+          <ErrorComponent
+            class="error-component"
+            v-show="store.shouldShowError"
+            :errorState="store.error.valueOf()"
+          />
         </transition>
 
         <transition name="fade" mode="out-in">
-          <div class="portfolio-page-content page-content-horizontal-margins page-content-vertical-margins"
-            v-show="store.shouldShowContent">
-            <div class="category-grid" :style="{ gridTemplateRows: `repeat(${numOfRows}, 60px)` }">
-              <div class="category-row" v-for="categoryName in store.state.portfolio.categories">
-                <p> {{ categoryName }} </p>
+          <div
+            class="portfolio-page-content page-content-horizontal-margins page-content-vertical-margins"
+            v-show="store.shouldShowContent"
+          >
+            <div
+              class="category-grid"
+              :style="{ gridTemplateRows: `repeat(${numOfRows}, 60px)` }"
+            >
+              <div
+                class="category-row"
+                v-for="{ id, category } in store.categories"
+                :key="id"
+                v-on:click="onCategoryClick(id)"
+              >
+                <p>{{ category }}</p>
               </div>
             </div>
           </div>
@@ -37,7 +57,7 @@ import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
 import ErrorComponent from "@/components/error/ErrorComponent.vue";
 import { debounce } from "ts-debounce";
-
+import routes from "@/router/routerCostants";
 
 export default defineComponent({
   name: "PortfolioPage",
@@ -45,15 +65,19 @@ export default defineComponent({
   setup() {
     const store = usePortfolioStore();
     const calculateCategoryGridNumOfRows = (): number => {
-      console.log(`📏 Calculating number of rows for category grid. 📏`)
+      console.log(`📏 Calculating number of rows for category grid. 📏`);
       if (window.innerWidth > 715) {
-        return store.portfolio.categories?.length / 2 || 0
+        return store.portfolio.categories?.size / 2 || 0;
       } else {
-        return store.portfolio.categories?.length || 0
+        return store.portfolio.categories?.size || 0;
       }
     };
 
-    const debouncedCalculateCategoryGridNumOfRows = debounce(calculateCategoryGridNumOfRows, 200, { isImmediate: true });
+    const debouncedCalculateCategoryGridNumOfRows = debounce(
+      calculateCategoryGridNumOfRows,
+      200,
+      { isImmediate: true }
+    );
 
     return { store, debouncedCalculateCategoryGridNumOfRows };
   },
@@ -67,26 +91,45 @@ export default defineComponent({
   },
   methods: {
     onResize() {
-      this.calculateCategoryGridNumOfRows()
+      this.calculateCategoryGridNumOfRows();
     },
     calculateCategoryGridNumOfRows() {
       this.debouncedCalculateCategoryGridNumOfRows().then((numOfRows) => {
-        console.log(`📏 Applying number of rows to grid. Quantity:${numOfRows} 📏`)
+        console.log(
+          `📏 Applying number of rows to grid. Quantity:${numOfRows} 📏`
+        );
         this.numOfRows = numOfRows;
+      });
+    },
+    onCategoryClick(categoryId: string) {
+      this.$router.push({
+        name: routes.portfolioCategoryPageRoute.routeName,
+        params: { id: categoryId },
       });
     },
   },
   beforeUnmount() {
-    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener("resize", this.onResize);
+    this.store.resetState();
   },
   mounted() {
-    window.addEventListener('resize', this.onResize);
-    this.store.fetchData().then(() => { this.calculateCategoryGridNumOfRows() })
+    window.addEventListener("resize", this.onResize);
+    this.store.fetchData().then(() => {
+      this.calculateCategoryGridNumOfRows();
+    });
   },
 });
 </script>
 
 <style scoped>
+.portfolio-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 .portfolio-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -114,7 +157,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  height: 100%
+  height: 100%;
 }
 
 .category-grid {

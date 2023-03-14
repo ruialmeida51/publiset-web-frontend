@@ -1,18 +1,8 @@
-import type ErrorStates from "@/sdk/store/error/errorState";
 import type ContactUs from "../../domain/contactUs/contactUs";
+import type ErrorStates from "../error/errorState";
 
-export default class ContactUsPageState {
+export default interface ContactUsPageState {
   loading: boolean;
   contactUs: ContactUs;
   error: ErrorStates.ErrorStatesEnum;
-
-  constructor(
-    loading: boolean,
-    contactUs: ContactUs,
-    error: ErrorStates.ErrorStatesEnum
-  ) {
-    this.loading = loading;
-    this.contactUs = contactUs;
-    this.error = error;
-  }
 }

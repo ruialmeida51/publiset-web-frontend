@@ -50,7 +50,7 @@ export default defineComponent({
       ) {
         errorInformation.value = new ErrorInformation(
           "500",
-          "Ocorreu um erro a contactar o servidor. Por favor, volte mais tarde, iremos tentar resolver o problema o mais breve possível."
+          "Ocorreu um erro interno. Por favor, volte mais tarde, iremos tentar resolver o problema o mais rapidemente possível."
         );
       }
     }

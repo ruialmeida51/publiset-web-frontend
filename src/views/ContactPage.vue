@@ -1,13 +1,13 @@
 <template>
   <div class="contact-us-wrapper">
     <NavigationBar />
-    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
-      <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false" :loader="loader"
+    <div class="fullscreen-loading-wrapper" v-show="store.loading">
+      <fullscren-loading class="fullscreen-overlay" :active="store.loading" :is-full-page="false" :loader="loader"
         :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
     </div>
 
     <transition name="fade" mode="out-in">
-      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.state.error.valueOf()" />
+      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.error.valueOf()" />
     </transition>
 
     <transition name="fade" mode="out-in">
@@ -46,22 +46,22 @@
             <div class="emailTitleDiv contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-mail.png" />
               <!--<h1>Email</h1>-->
-              <h3>{{ store.state.contactUs.email }}</h3>
+              <h3>{{ store.contactUs.email }}</h3>
             </div>
             <div class="phonetitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-phone-call.png" />
               <!--<h1>Telemóvel</h1>-->
-              <h3>{{ store.state.contactUs.phone_number }}</h3>
+              <h3>{{ store.contactUs.phone_number }}</h3>
             </div>
             <div class="addresstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-address.png" />
               <!--<h1>Morada</h1>-->
-              <h3>{{ store.state.contactUs.address }}</h3>
+              <h3>{{ store.contactUs.address }}</h3>
             </div>
             <div class="openhourstitle contact-information-layout">
               <img class="contact-information-icon" src="@/assets/icons/ic-calendar.png" />
               <!--<h1>Horário</h1>-->
-              <h3>{{ store.state.contactUs.open_hours }}</h3>
+              <h3>{{ store.contactUs.open_hours }}</h3>
             </div>
           </div>
           <div class="map">
@@ -97,6 +97,9 @@ export default defineComponent({
       backgroundColor: "#000",
       dotsColor: "#fff",
     };
+  },
+  unmounted() {
+    this.store.resetState();
   },
   mounted() {
     this.store.fetchData();

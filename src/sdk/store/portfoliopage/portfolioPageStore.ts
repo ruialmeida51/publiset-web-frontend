@@ -1,39 +1,54 @@
-import Portfolio from "@/sdk/model/domain/portfolio/portfolio";
+import type Portfolio from "@/sdk/model/domain/portfolio/portfolio";
 import ErrorStates from "@/sdk/model/store/error/errorState";
-import PortfolioPageStore from "@/sdk/model/store/portfolio/portfolioPageState";
+import type PortfolioPageStore from "@/sdk/model/store/portfolio/portfolioPageState";
 import publisetPortfolioClient from "@/sdk/services/publisetPortfolioClient";
 import axios from "axios";
 import { catchAndLogError } from "@/utils/http/catchAndLogError";
 import { defineStore } from "pinia";
+import type { IdAndCategory } from "@/sdk/model/store/portfolio/portfolioPageState";
 
 export const usePortfolioStore = defineStore("portfolioPageStore", {
-  state: () => ({
+  state: (): PortfolioPageStore => ({
     loading: true as boolean,
     error: ErrorStates.ErrorStatesEnum.None as ErrorStates.ErrorStatesEnum,
     portfolio: {} as Portfolio,
+    categories: [] as IdAndCategory[],
   }),
   getters: {
-    state: (state) => new PortfolioPageStore(state.loading, state.error, state.portfolio),
-    shouldShowError: (state) => state.loading == false && state.error != ErrorStates.ErrorStatesEnum.None,
-    shouldShowContent: (state) => state.loading == false && state.error == ErrorStates.ErrorStatesEnum.None,
+    shouldShowError: (state) =>
+      state.loading == false && state.error != ErrorStates.ErrorStatesEnum.None,
+    shouldShowContent: (state) =>
+      state.loading == false && state.error == ErrorStates.ErrorStatesEnum.None,
   },
   actions: {
+    resetState() {
+      this.loading = true;
+      this.error = ErrorStates.ErrorStatesEnum.None;
+      this.portfolio = {} as Portfolio;
+      this.categories = [] as IdAndCategory[];
+    },
     async fetchPortfolio() {
-      return Promise.resolve(publisetPortfolioClient.getPortfolio())
-        .then((item) => {
-          console.log("📝 Fetched portfolio data successfuly 📝");
+      return Promise.resolve(publisetPortfolioClient.getPortfolio()).then(
+        (item) => {
           this.portfolio = item;
-        })
-        .catch((error) => (this.error = catchAndLogError(error, axios)));
+          this.categories = [];
+          item.categories.forEach((value: string, key: string) => {
+            this.categories.push({ id: key, category: value });
+          });
+        }
+      );
     },
     async fetchData() {
       Promise.all([this.fetchPortfolio()])
         .then((result) => {
           return new Promise((resolve) =>
-            setTimeout(() => resolve(result), 1000)
+            setTimeout(() => resolve(result), 500)
           );
         })
-        .then(() => {
+        .catch((error) => {
+          this.error = catchAndLogError(error, axios);
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -41,4 +56,3 @@ export const usePortfolioStore = defineStore("portfolioPageStore", {
 });
 
 export default usePortfolioStore;
-

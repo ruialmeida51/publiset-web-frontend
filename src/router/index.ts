@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import routerConstants from "./routerCostants";
 import LandingPage from "../views/LandingPage.vue";
 import PortfolioPage from "../views/PortfolioPage.vue";
+import PortfolioCategoryPage from "../views/PortfolioCategoryPage.vue";
 import ContactPage from "../views/ContactPage.vue";
 import AboutPage from "../views/AboutPage.vue";
 
@@ -17,6 +18,11 @@ const router = createRouter({
       path: routerConstants.portfolioPageRoute.routeUrl,
       name: routerConstants.portfolioPageRoute.routeName,
       component: PortfolioPage,
+    },
+    {
+      path: routerConstants.portfolioCategoryPageRoute.routeUrl,
+      name: routerConstants.portfolioCategoryPageRoute.routeName,
+      component: PortfolioCategoryPage,
     },
     {
       path: routerConstants.contactUsPageRoute.routeUrl,

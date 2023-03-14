@@ -1,40 +1,26 @@
 <template>
   <div class="landing-page-wrapper">
     <NavigationBar />
-    <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
-      <fullscren-loading
-        class="fullscreen-overlay"
-        :active="store.state.loading"
-        :is-full-page="false"
-        :loader="loader"
-        :background-color="backgroundColor"
-        :opacity="1"
-        :color="dotsColor"
-      />
+    <div class="fullscreen-loading-wrapper" v-show="store.loading">
+      <fullscren-loading class="fullscreen-overlay" :active="store.loading" :is-full-page="false" :loader="loader"
+        :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
     </div>
 
     <transition name="fade" mode="out-in">
-      <ErrorComponent
-        class="error-component"
-        v-show="store.shouldShowError"
-        :errorState="store.state.error"
-      />
+      <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.error" />
     </transition>
 
     <transition name="fade" mode="out-in">
-      <div
-        class="landing-page page-content-horizontal-margins"
-        v-show="store.shouldShowContent"
-      >
+      <div class="landing-page page-content-horizontal-margins" v-show="store.shouldShowContent">
         <div class="title-div">
           <h1 class="title">
-            <pre>{{ store.state.title }}</pre>
+            <pre>{{ store.title }}</pre>
           </h1>
         </div>
 
         <div class="services-div">
           <ul class="services">
-            <li v-for="service in store.state.services" :key="service.service">
+            <li v-for="service in store.services" :key="service.service">
               {{ service.service }}
             </li>
           </ul>
@@ -42,11 +28,7 @@
 
         <div class="catalog-div">
           <p>Catálogos</p>
-          <button
-            v-for="button in store.state.catalogs"
-            :key="button.name"
-            @click="goToHyperlink(button.redirectUrl)"
-          >
+          <button v-for="button in store.catalogs" :key="button.name" @click="goToHyperlink(button.redirectUrl)">
             {{ button.name }}
           </button>
         </div>
@@ -82,6 +64,9 @@ export default defineComponent({
     goToHyperlink(url: string) {
       window.open(url, "_blank");
     },
+  },
+  beforeUnmount() {
+    this.store.resetState();
   },
   mounted() {
     this.store.fetchData();
@@ -246,10 +231,9 @@ Services styling
   }
 
   .catalog-div {
-    grid-area: content;
-    align-items: start;
     display: inline-flex;
-    align-content: flex-start;
+    flex-wrap: wrap;
+    align-content: space-between;
   }
 
   .catalog-div p {
