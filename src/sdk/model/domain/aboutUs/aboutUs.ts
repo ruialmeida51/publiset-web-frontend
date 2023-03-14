@@ -1,4 +1,4 @@
-import type Image from "@/sdk/model/remote/images/imageResponse";
+import Image from "@/sdk/model/domain/image";
 
 export class AboutUs {
   title_one: string;

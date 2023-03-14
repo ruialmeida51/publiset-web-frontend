@@ -6,7 +6,7 @@ import {
 } from "@/sdk/service";
 
 import { AboutUs } from "../model/domain/aboutUs/aboutUs";
-import Image from "../model/domain/aboutUs/image";
+import Image from "../model/domain/image";
 import type { AboutUsResponse } from "../model/remote/aboutUs/aboutUsResponse";
 
 export module publisetAboutUsClient {

@@ -4,38 +4,23 @@
     <transition name="fade" mode="out-in">
       <div class="portfolio-page-wrapper">
         <div class="fullscreen-loading-wrapper" v-show="store.state.loading">
-          <fullscren-loading
-            class="fullscreen-overlay"
-            :active="store.state.loading"
-            :is-full-page="false"
-            :loader="loader"
-            :background-color="backgroundColor"
-            :opacity="1"
-            :color="dotsColor"
-          />
+          <fullscren-loading class="fullscreen-overlay" :active="store.state.loading" :is-full-page="false"
+            :loader="loader" :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
         </div>
 
         <transition name="fade" mode="out-in">
-          <ErrorComponent
-            class="error-component"
-            v-show="store.shouldShowError"
-            :errorState="store.state.error.valueOf()"
-          />
+          <ErrorComponent class="error-component" v-show="store.shouldShowError"
+            :errorState="store.state.error.valueOf()" />
         </transition>
 
         <transition name="fade" mode="out-in">
-          <div
-            class="portfolio-page-content page-content-horizontal-margins page-content-vertical-margins"
-            :style="{ 'grid-template-rows': store.numOfItems / 2 }"
-            v-show="store.shouldShowContent"
-          >
-            <p
-              v-for="(category, index) in store.state.portfolio.categories"
-              :key="index"
-              :style="{ 'grid-row': calculateRow(index) }"
-            >
-              {{ category }}
-            </p>
+          <div class="portfolio-page-content page-content-horizontal-margins page-content-vertical-margins"
+            v-show="store.shouldShowContent">
+            <div class="category-grid" :style="{ gridTemplateRows: `repeat(${numOfRows}, 60px)` }">
+              <div class="category-row" v-for="categoryName in store.state.portfolio.categories">
+                <p> {{ categoryName }} </p>
+              </div>
+            </div>
           </div>
         </transition>
       </div>
@@ -51,45 +36,52 @@ import usePortfolioStore from "@/sdk/store/portfoliopage/portfolioPageStore";
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
 import ErrorComponent from "@/components/error/ErrorComponent.vue";
+import { debounce } from "ts-debounce";
+
 
 export default defineComponent({
   name: "PortfolioPage",
   components: { NavigationBar, BottomBar, ErrorComponent },
   setup() {
     const store = usePortfolioStore();
+    const calculateCategoryGridNumOfRows = (): number => {
+      console.log(`📏 Calculating number of rows for category grid. 📏`)
+      if (window.innerWidth > 715) {
+        return store.portfolio.categories?.length / 2 || 0
+      } else {
+        return store.portfolio.categories?.length || 0
+      }
+    };
 
-    return { store };
+    const debouncedCalculateCategoryGridNumOfRows = debounce(calculateCategoryGridNumOfRows, 200, { isImmediate: true });
+
+    return { store, debouncedCalculateCategoryGridNumOfRows };
   },
   data() {
     return {
       loader: "dots",
       backgroundColor: "#000",
       dotsColor: "#fff",
+      numOfRows: 0,
     };
   },
   methods: {
-    createRowMap(): string[] {
-      let list = [];
-
-      for (let i = 0; i < this.store.numOfItems; i += 2) {
-        list.push(
-          //dis don't work
-          this.store.portfolio.categories[i],
-          this.store.portfolio.categories[i + 1]
-        );
-      }
-
-      console.log("list of lists" + list);
-      return list;
+    onResize() {
+      this.calculateCategoryGridNumOfRows()
     },
-    calculateRow(index: number): number {
-      return 1;
+    calculateCategoryGridNumOfRows() {
+      this.debouncedCalculateCategoryGridNumOfRows().then((numOfRows) => {
+        console.log(`📏 Applying number of rows to grid. Quantity:${numOfRows} 📏`)
+        this.numOfRows = numOfRows;
+      });
     },
   },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.onResize)
+  },
   mounted() {
-    this.store.fetchData().then((_) => {
-      this.createRowMap();
-    });
+    window.addEventListener('resize', this.onResize);
+    this.store.fetchData().then(() => { this.calculateCategoryGridNumOfRows() })
   },
 });
 </script>
@@ -107,6 +99,7 @@ export default defineComponent({
   display: flex;
   height: 100%;
   justify-content: center;
+  text-align: center;
 }
 
 .fullscreen-loading-wrapper {
@@ -118,12 +111,68 @@ export default defineComponent({
 }
 
 .portfolio-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%
+}
+
+.category-grid {
   display: grid;
   grid-template-columns: [col] 1fr [col] 1fr;
-  grid-template-rows: auto;
   column-gap: 40px;
-  justify-content: end;
-  align-items: center;
-  align-content: center;
+  row-gap: 20px;
+  align-content: end;
+  height: 100%;
+}
+
+.category-row p {
+  font-weight: bold;
+  font-size: 40px;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+  border-color: white;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1em;
+}
+
+.category-row p:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1070px) {
+  .portfolio-page-content {
+    margin-left: 45px;
+    margin-right: 45px;
+  }
+
+  .category-grid {
+    grid-template-columns: [col] 1fr [col] 1fr;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .portfolio-page-content {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .category-grid {
+    grid-template-columns: [col] 1fr [col] 1fr;
+  }
+
+  .category-row p {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-width: 715px) {
+  .category-grid {
+    grid-template-columns: [col] 1fr;
+    align-content: start;
+  }
 }
 </style>

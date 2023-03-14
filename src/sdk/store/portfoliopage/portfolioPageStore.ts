@@ -1,8 +1,9 @@
-import type Portfolio from "@/sdk/model/domain/portfolio/portfolio";
+import Portfolio from "@/sdk/model/domain/portfolio/portfolio";
 import ErrorStates from "@/sdk/model/store/error/errorState";
 import PortfolioPageStore from "@/sdk/model/store/portfolio/portfolioPageState";
 import publisetPortfolioClient from "@/sdk/services/publisetPortfolioClient";
 import axios from "axios";
+import { catchAndLogError } from "@/utils/http/catchAndLogError";
 import { defineStore } from "pinia";
 
 export const usePortfolioStore = defineStore("portfolioPageStore", {
@@ -15,7 +16,6 @@ export const usePortfolioStore = defineStore("portfolioPageStore", {
     state: (state) => new PortfolioPageStore(state.loading, state.error, state.portfolio),
     shouldShowError: (state) => state.loading == false && state.error != ErrorStates.ErrorStatesEnum.None,
     shouldShowContent: (state) => state.loading == false && state.error == ErrorStates.ErrorStatesEnum.None,
-    numOfItems: (state) => state.portfolio.categories?.length,
   },
   actions: {
     async fetchPortfolio() {
@@ -41,7 +41,4 @@ export const usePortfolioStore = defineStore("portfolioPageStore", {
 });
 
 export default usePortfolioStore;
-function catchAndLogError(error: any, axios: any): ErrorStates.ErrorStatesEnum {
-  throw new Error("Function not implemented.");
-}
 

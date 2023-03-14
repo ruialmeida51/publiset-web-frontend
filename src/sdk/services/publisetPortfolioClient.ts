@@ -7,13 +7,15 @@ export module publisetContactUsClient {
   const path = import.meta.env.VITE_API_URL + "/portfolios";
 
   export async function getPortfolio(): Promise<Portfolio> {
-    const request = await axios.get<ArrayResponse<PortfolioResponse>>(path);
-    const portfolioResponse = transformArrayResponse(request.data);
-    const categories = [] as string[];
+    //const request = await axios.get<ArrayResponse<PortfolioResponse>>(path);
+    //const portfolioResponse = transformArrayResponse(request.data);
+    //const categories = [] as string[];
 
-    portfolioResponse.forEach((category) => categories.push(category.category_name));
+    //portfolioResponse.forEach((category) => categories.push(category.category_name));
 
-    return new Portfolio(categories);
+    //return new Portfolio(categories);
+    const portfolio = new Portfolio(["Decoração de Viaturas", "Montras", "Reclames", "Têxtil", "Impressão 3D", "Brindes", "Impressão digital", "Sinalética"])
+    return new Promise((resolve) => resolve(portfolio));
   }
 }
 
