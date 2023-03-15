@@ -4,28 +4,48 @@
     <transition name="fade" mode="out-in">
       <div class="portfolio-category-page-wrapper">
         <div class="fullscreen-loading-wrapper" v-show="store.loading">
-          <fullscren-loading class="fullscreen-overlay" :active="store.loading" :is-full-page="false" :loader="loader"
-            :background-color="backgroundColor" :opacity="1" :color="dotsColor" />
+          <fullscren-loading
+            class="fullscreen-overlay"
+            :active="store.loading"
+            :is-full-page="false"
+            :loader="loader"
+            :background-color="backgroundColor"
+            :opacity="1"
+            :color="dotsColor"
+          />
         </div>
 
         <transition name="fade" mode="out-in">
-          <ErrorComponent class="error-component" v-show="store.shouldShowError" :errorState="store.error.valueOf()" />
+          <ErrorComponent
+            class="error-component"
+            v-show="store.shouldShowError"
+            :errorState="store.error.valueOf()"
+          />
         </transition>
 
-        <div class="portfolio-category-page-content page-content-horizontal-margins page-content-vertical-margins"
-          v-show="store.shouldShowContent">
+        <div
+          class="portfolio-category-page-content page-content-horizontal-margins page-content-vertical-margins"
+          v-show="store.shouldShowContent"
+        >
           <h1>{{ store.portfolio.category_name }}</h1>
           <p @click="onGoBackClick()">{{ goBack }}</p>
 
-          <div class="portfolio-category-grid" :style="{
-            gridTemplateColumns: `repeat(${store.portfolio.images?.length}, 175px)`,
-          }">
-            <img v-for="(image, index) in store.portfolio.images" :key="image.formats.thumbnail.url"
-              :class="`portfolio-image${index + 1}`" v-lazy="{
+          <div
+            class="portfolio-category-grid"
+            :style="{
+              gridTemplateColumns: `repeat(${store.portfolio.images?.length}, 175px)`,
+            }"
+          >
+            <img
+              v-for="(image, index) in store.portfolio.images"
+              :key="image.formats.thumbnail.url"
+              :class="`portfolio-image${index + 1}`"
+              v-lazy="{
                 src: `${createImageUrl(image.formats.thumbnail.url)}`,
                 loading: errorlazy.loading,
                 error: errorlazy.error,
-              }" />
+              }"
+            />
           </div>
         </div>
       </div>
