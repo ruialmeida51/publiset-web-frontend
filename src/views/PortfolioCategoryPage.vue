@@ -14,12 +14,19 @@
 
         <div class="portfolio-category-page-content page-content-horizontal-margins page-content-vertical-margins"
           v-show="store.shouldShowContent">
-          <h1> {{ store.portfolio.category_name }} </h1>
-          <p @click="onGoBackClick()"> {{ goBack }} </p>
+          <h1>{{ store.portfolio.category_name }}</h1>
+          <p @click="onGoBackClick()">{{ goBack }}</p>
 
-
-          <img v-for="(image, index) in store.portfolio.images" :key="image.formats.thumbnail.url"
-            :class="`about-us-image${index + 1}`" :src="`${createImageUrl(image.formats.thumbnail?.url)}`" />
+          <div class="portfolio-category-grid" :style="{
+            gridTemplateColumns: `repeat(${store.portfolio.images?.length}, 175px)`,
+          }">
+            <img v-for="(image, index) in store.portfolio.images" :key="image.formats.thumbnail.url"
+              :class="`portfolio-image${index + 1}`" v-lazy="{
+                src: `${createImageUrl(image.formats.thumbnail.url)}`,
+                loading: errorlazy.loading,
+                error: errorlazy.error,
+              }" />
+          </div>
         </div>
       </div>
     </transition>
@@ -28,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 
 import NavigationBar from "@/components/navigationbar/NavigationBar.vue";
 import BottomBar from "@/components/bottombar/BottomBar.vue";
@@ -41,7 +48,12 @@ export default defineComponent({
   components: { NavigationBar, BottomBar, ErrorComponent },
   setup() {
     const store = usePortfolioCategoryStore();
-    return { store };
+    const errorlazy = reactive({
+      loading: "/src/assets/pictures/img-placeholder.png",
+      error: "/src/assets/pictures/img-error.png",
+    });
+
+    return { store, errorlazy };
   },
   data() {
     return {
@@ -109,12 +121,75 @@ export default defineComponent({
 
 .portfolio-category-page-content p {
   font-size: 18px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   cursor: pointer;
 }
 
 .portfolio-category-page-content h1 {
   font-weight: bold;
   font-size: 40px;
+}
+
+.portfolio-category-grid {
+  display: grid;
+  grid-template-rows: [row] 1fr [row] 1fr;
+  row-gap: 10px;
+  column-gap: 10px;
+  height: 100%;
+  overflow-x: auto;
+}
+
+.portfolio-category-grid img {
+  display: flex;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  min-width: 175px;
+  min-height: 200px;
+}
+
+@media only screen and (max-width: 1070px) {
+  .portfolio-category-page-content {
+    margin-left: 45px;
+    margin-right: 45px;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .portfolio-category-page-content {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media only screen and (max-width: 715px) {
+  .portfolio-category-page-content h1 {
+    font-size: 30px;
+  }
+
+  .portfolio-category-page-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    justify-content: space-evenly;
+  }
+
+  .portfolio-category-grid {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .portfolio-category-grid img {
+    display: flex;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    min-width: 150px;
+    max-height: 350px;
+  }
 }
 </style>

@@ -1,10 +1,16 @@
 import axios from "axios";
-import { transformArrayResponse, transformArrayResponseWithIds, transformResponse, type ArrayResponse, type Response } from "@/sdk/service";
+import {
+  transformArrayResponse,
+  transformArrayResponseWithIds,
+  transformResponse,
+  type ArrayResponse,
+  type Response,
+} from "@/sdk/service";
 import type PortfolioResponse from "../model/remote/portfolio/portfolioResponse";
 import Portfolio from "../model/domain/portfolio/portfolio";
 import PortfolioCategory from "../model/domain/portfolio/portfolioCategory";
 import type PortfolioResponseWithImages from "../model/remote/portfolio/portfolioResponseWithImage";
-import Image from "@/sdk/model/domain/image"
+import Image from "@/sdk/model/domain/image";
 
 export module publisetContactUsClient {
   const path = import.meta.env.VITE_API_URL + "/portfolios";
@@ -21,9 +27,10 @@ export module publisetContactUsClient {
     return new Portfolio(categories);
   }
 
-  export async function getPortfolioCategoryById(id: string): Promise<PortfolioCategory> {
+  export async function getPortfolioCategoryById(
+    id: string
+  ): Promise<PortfolioCategory> {
     const requestUrl = `${path}/${id}?populate=*`;
-    console.log(requestUrl);
     const request = await axios.get<Response<PortfolioResponseWithImages>>(requestUrl);
     const portfolioResponse = transformResponse(request.data);
     const imageResponse = transformArrayResponse(portfolioResponse.media);
